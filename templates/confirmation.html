@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Réussi</title>
+    <!-- Lien vers FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.5s ease-in-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 200px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.9;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #333;
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+
+        .thank-you {
+            font-weight: bold;
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .thank-you i {
+            color: #4CAF50;
+            margin-left: 10px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Bouton de retour */
+        .return-button {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .return-button:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .return-button:active {
+            transform: translateY(0);
+        }
+
+        /* Compteur de redirection */
+        .redirect-counter {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            opacity: 0.8;
+        }
+
+        .redirect-counter span {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="https://destockagealimentaireprixbas.com/wp-content/uploads/2024/04/Destockage-Alimentaire-2.gif" alt="Logo Destockage Alimentaire">
+        </div>
+
+        <!-- Titre animé -->
+        <h1>Paiement Réussi !</h1>
+
+        <!-- Message de confirmation -->
+        <p>Merci, {{ nom }} {{ prenom }}, pour votre paiement de {{ montant }} €.</p>
+        <p class="thank-you">
+            L'équipe de DestockageAlimentairePrixBas vous remercie pour votre confiance.
+            <i class="fas fa-heart"></i>
+        </p>
+
+        <!-- Numéro de commande aléatoire -->
+        <p>Votre commande n°<strong id="order-number"></strong> a bien été enregistrée. Vous allez recevoir une confirmation dans quelques instants.</p>
+
+        <!-- Compteur de redirection -->
+        <div class="redirect-counter">
+            Redirection vers <a href="https://destockagealimentaireprixbas.com" target="_blank">destockagealimentaireprixbas.com</a> dans <span id="countdown">15</span> secondes...
+        </div>
+
+        <!-- Bouton de retour -->
+        <button class="return-button" onclick="window.location.href='https://destockagealimentaireprixbas.com'">Retour au site</button>
+    </div>
+
+    <script>
+        // Génération d'un numéro de commande aléatoire
+        const orderNumber = Math.floor(Math.random() * 9000) + 1000; // Génère un nombre entre 1000 et 9999
+        document.getElementById('order-number').textContent = orderNumber;
+
+        // Compteur de redirection
+        let countdown = 15; // Durée en secondes
+        const countdownElement = document.getElementById('countdown');
+
+        const interval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(interval);
+                window.location.href = "https://destockagealimentaireprixbas.com"; // Redirection vers le site
+            }
+        }, 1000); // Mise à jour toutes les secondes
+    </script>
+</body>
+</html>
