@@ -36,7 +36,7 @@ def payment_form():
         session['adresse_facturation'] = request.form.get('adresse_facturation', '').strip()
         session['adresse_livraison'] = request.form.get('adresse_livraison', '').strip()
 
-        if not all([session['nom'], session['prenom'], session['telephone'], session['email'], session['adresse_facturation'], session['adresse_livraison'], session['montant']):
+        if not all([session['nom'], session['prenom'], session['telephone'], session['email'], session['adresse_facturation'], session['adresse_livraison'], session['montant']]):
             return "❌ Erreur : Tous les champs sont obligatoires.", 400
 
         return redirect(url_for('credit_card_form'))
