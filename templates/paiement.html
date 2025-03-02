@@ -19,8 +19,8 @@
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Changé de center à flex-start */
-            min-height: 100vh; /* Changé de height à min-height */
+            align-items: flex-start;
+            min-height: 100vh;
             margin: 0;
             color: #333;
         }
@@ -35,7 +35,7 @@
             animation: fadeIn 0.5s ease-in-out;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 20px; /* Ajout d'une marge en haut */
+            margin-top: 20px;
         }
 
         @keyframes fadeIn {
@@ -91,7 +91,7 @@
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 14px 14px 14px 40px; /* Espace pour l'icône */
+            padding: 14px 14px 14px 40px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             font-size: 14px;
@@ -105,6 +105,19 @@
             box-shadow: 0 0 12px rgba(76, 175, 80, 0.3);
             outline: none;
             transform: scale(1.02);
+        }
+
+        /* Style spécifique pour le champ Montant */
+        .form-group.montant input {
+            background-color: #e8f5e9; /* Fond vert clair */
+            border: 2px solid #4CAF50; /* Bordure verte */
+            font-weight: bold;
+            color: #2e7d32; /* Texte vert foncé */
+            cursor: not-allowed; /* Curseur non modifiable */
+        }
+
+        .form-group.montant i {
+            color: #4CAF50; /* Icône verte */
         }
 
         /* Icônes pour chaque champ */
@@ -121,9 +134,9 @@
         /* Champs d'adresse encore plus larges */
         .form-group.adresse input {
             width: 100%;
-            padding: 16px 16px 16px 40px; /* Espace pour l'icône */
-            height: 60px; /* Hauteur augmentée */
-            font-size: 16px; /* Taille de police augmentée */
+            padding: 16px 16px 16px 40px;
+            height: 60px;
+            font-size: 16px;
         }
 
         .telephone-container {
@@ -139,7 +152,7 @@
 
         .telephone-container input {
             flex: 3;
-            padding: 14px 14px 14px 40px; /* Espace pour l'icône */
+            padding: 14px 14px 14px 40px;
             border-radius: 12px;
         }
 
@@ -228,41 +241,40 @@
             <!-- Nom -->
             <div class="form-group">
                 <label for="nom">Nom</label>
-                <i class="fas fa-user"></i> <!-- Icône pour le nom -->
+                <i class="fas fa-user"></i>
                 <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
             </div>
 
             <!-- Prénom -->
             <div class="form-group">
                 <label for="prenom">Prénom</label>
-                <i class="fas fa-user-tag"></i> <!-- Icône pour le prénom -->
+                <i class="fas fa-user-tag"></i>
                 <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
             </div>
 
             <!-- Adresse de facturation -->
             <div class="form-group adresse">
                 <label for="adresse_facturation">Adresse de Facturation</label>
-                <i class="fas fa-map-marker-alt"></i> <!-- Icône pour l'adresse -->
+                <i class="fas fa-map-marker-alt"></i>
                 <input type="text" id="adresse_facturation" name="adresse_facturation" placeholder="Adresse de facturation" required>
             </div>
 
             <!-- Adresse de livraison -->
             <div class="form-group adresse">
                 <label for="adresse_livraison">Adresse de Livraison</label>
-                <i class="fas fa-truck"></i> <!-- Icône pour la livraison -->
+                <i class="fas fa-truck"></i>
                 <input type="text" id="adresse_livraison" name="adresse_livraison" placeholder="Adresse de livraison" required>
             </div>
 
             <!-- Téléphone avec indicatif -->
             <div class="form-group">
                 <label for="telephone">Numéro de Téléphone</label>
-                <i class="fas fa-phone"></i> <!-- Icône pour le téléphone -->
+                <i class="fas fa-phone"></i>
                 <div class="telephone-container">
                     <select id="indicatif" name="indicatif" required>
                         <option value="+33">+33 (France)</option>
                         <option value="+32">+32 (Belgique)</option>
                         <option value="+41">+41 (Suisse)</option>
-                        <!-- Ajoutez d'autres indicatifs ici -->
                     </select>
                     <input type="tel" id="telephone" name="telephone" placeholder="Votre numéro" required>
                 </div>
@@ -271,15 +283,15 @@
             <!-- Email -->
             <div class="form-group">
                 <label for="email">Adresse E-mail</label>
-                <i class="fas fa-envelope"></i> <!-- Icône pour l'e-mail -->
+                <i class="fas fa-envelope"></i>
                 <input type="email" id="email" name="email" placeholder="Votre e-mail" required>
             </div>
 
             <!-- Montant -->
-            <div class="form-group">
+            <div class="form-group montant">
                 <label for="montant">Montant (€)</label>
-                <i class="fas fa-euro-sign"></i> <!-- Icône pour le montant -->
-                <input type="number" id="montant" name="montant" placeholder="Montant à payer" required>
+                <i class="fas fa-euro-sign"></i>
+                <input type="text" id="montant" name="montant" placeholder="Montant à payer" readonly>
             </div>
 
             <!-- Bouton de soumission -->
@@ -290,10 +302,11 @@
     <script>
         // Récupérer le montant depuis l'URL
         const urlParams = new URLSearchParams(window.location.search);
-        const montant = urlParams.get('montant');
+        let montant = urlParams.get('montant');
 
-        // Pré-remplir le champ "Montant" avec la valeur récupérée
+        // Remplacer la virgule par un point pour le format numérique
         if (montant) {
+            montant = montant.replace(',', '.');
             document.getElementById('montant').value = montant;
         }
 
