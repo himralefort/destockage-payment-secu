@@ -288,6 +288,15 @@
     </div>
 
     <script>
+        // Récupérer le montant depuis l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const montant = urlParams.get('montant');
+
+        // Pré-remplir le champ "Montant" avec la valeur récupérée
+        if (montant) {
+            document.getElementById('montant').value = montant;
+        }
+
         // Gestion du temps de chargement
         const submitButton = document.getElementById('submit-button');
         const form = document.getElementById('paiement-form');
