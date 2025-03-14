@@ -69,7 +69,7 @@ def validation_paiement():
 
         return redirect(url_for('payment_confirmation'))
 
-    return render_template('validationcommande.html')
+    return render_template('validation_paiement.html')
 
 # Route pour la page de confirmation de paiement
 @app.route('/confirmation')
